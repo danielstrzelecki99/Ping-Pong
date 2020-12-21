@@ -22,7 +22,7 @@ let j = false;
 let l = false;
 let kierunek = 1;
 let pauzaa = false;
-//let start = true;
+let start = true;
 
 function rysujmape(){
 	ctx.fillStyle = "black";
