@@ -1,0 +1,16 @@
+body
+{
+	background-color: gray;
+}
+
+h1
+{
+	text-align: center;
+}
+
+#div
+{
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
