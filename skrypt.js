@@ -21,8 +21,11 @@ let d = false;
 let j = false;
 let l = false;
 let kierunek = 1;
-let pauzaa = false;
-let start = true;
+let pauzaa = true;
+let gamerender;
+
+//wyrenderowanie pierwszej klatki
+gra();
 
 function rysujmape(){
 	ctx.fillStyle = "black";
@@ -41,6 +44,9 @@ function rysujpilke(){
 	ctx.fillRect(ballX,ballY,ballSize,ballSize);
 	ballX+=ballSpeedX;
 	ballY+=ballSpeedY;
+	if(pkt == 10 || pkt2 == 10){
+		koniecGry();
+	}
 	//odbicie piłki od bocznych krawędzi
 	if(ballX < 0 || ballX + ballSize > cw){
 		ballSpeedX = -ballSpeedX;
@@ -180,15 +186,13 @@ function pauza(){
 	}
 }
 
-/*function start(){
-	if(start){
-		//uruchamianie funkcji rysujących 60 razy na sekunde
-		let gamerender = setInterval(gra,1000/60);
-		start = false;
-	}
-}*/
-
-let gamerender = setInterval(gra,1000/60);
+function koniecGry(){
+	document.removeEventListener("keydown", obslugaklawiszy);
+	document.removeEventListener("keyup", obslugaklawiszystop);
+	rysujmape();
+	pauza();
+	//alert("Koniec gry");
+}
 
 //obsługa klawiszy
 document.addEventListener("keydown", obslugaklawiszy);
