@@ -25,7 +25,7 @@ let pauzaa = true;
 let gamerender;
 
 //wyrenderowanie pierwszej klatki
-gra();
+startGry();
 
 function rysujmape(){
 	ctx.fillStyle = "black";
@@ -127,7 +127,7 @@ function obslugaklawiszy(e){
 	if(e.keyCode == 76){
 		l = true;
 	}
-	if(e.keyCode == 27){
+	if(e.keyCode == 32){
 		pauza();
 	}
 }
@@ -172,6 +172,10 @@ function nowaRunda(gracz){
 	ballSpeedY = 4*gracz;
 	paddleX = cw/2 - paddlewidth/2;
 	paddle2X = cw/2 - paddlewidth/2;
+	if(pkt < 10 && pkt2 < 10){	
+		pauzaNapis();
+		pauza();
+	}
 }
 
 function pauza(){
@@ -183,15 +187,39 @@ function pauza(){
 	else{
 		clearInterval(gamerender);
 		pauzaa = true;
+		pauzaNapis();
 	}
 }
 
 function koniecGry(){
 	document.removeEventListener("keydown", obslugaklawiszy);
 	document.removeEventListener("keyup", obslugaklawiszystop);
-	rysujmape();
-	pauza();
-	//alert("Koniec gry");
+	clearInterval(gamerender);
+	ctx.fillText("KONIEC GRY", 240, 210);
+	if(pkt == 10){
+		ctx.fillText("Wygrywa gracz 1 !!!", 160, 290);
+	}
+	else{
+		ctx.fillText("Wygrywa gracz 2 !!!", 160, 290);
+	}
+}
+function pauzaNapis(){
+	gra();
+	ctx.fillStyle = "gray";
+	ctx.font = "italic bold 40px Arial";
+	ctx.fillText("Aby rozpocząć grę, naciśnij SPACJĘ", 50, 400);
+}
+function startGry(){
+	pauzaNapis();
+	ctx.fillText("A <---            ---> D ", 229, 45);
+	ctx.fillText("Gracz 1", 330, 85);
+	ctx.fillStyle = "white";
+	ctx.font = "italic bold 100px Arial";
+	ctx.fillText("PING - PONG", 90, 230);
+	ctx.fillStyle = "gray";
+	ctx.font = "italic bold 40px Arial";
+	ctx.fillText("J <---            ---> L", 235, ch - 25);
+	ctx.fillText("Gracz 2", 330, ch - 55);
 }
 
 //obsługa klawiszy
