@@ -14,7 +14,7 @@ let ballSpeedY = 4;
 let paddleX = cw/2 - paddlewidth/2;
 let paddle2X = cw/2 - paddlewidth/2;
 let pkt = 9;
-let pkt2 = 9;
+let pkt2 = 0;
 
 let a = false;
 let d = false;
@@ -29,9 +29,10 @@ let nowagra = false;
 startGry();
 //cztery kolejne funkcje odpowiadają za wyświetlanie wszystkich elementów na ekranie
 function rysujmape(){
-	ctx.fillStyle = "black";
+	ctx.fillStyle = "green";
 	ctx.fillRect(0,0,cw,ch);
-	ctx.fillStyle = "gray";
+	ctx.fillStyle = "white";
+	ctx.fillRect(cw/2 - 3, 0 , 6, ch);
 	for(let i = 0; i < cw; i+=30){
 		ctx.fillRect(i,ch/2-3,20,6);
 	}
@@ -80,7 +81,7 @@ function rysujpilke(){
 }
 
 function rysujpaletke(){
-	ctx.fillStyle = "pink";
+	ctx.fillStyle = "red";
 	ctx.fillRect(paddleX,30,paddlewidth,paddleheight);
 	//aby paletka nie wychodziła poza mapę
 	if(paddleX <= 0){
@@ -92,7 +93,7 @@ function rysujpaletke(){
 }
 
 function rysujpaletke2(){
-	ctx.fillStyle = "green";
+	ctx.fillStyle = "black";
 	ctx.fillRect(paddle2X,ch - 30 - paddleheight,paddlewidth,paddleheight);
 	//aby paletka nie wychodziła poza mapę
 	if(paddle2X <= 0){
@@ -216,25 +217,27 @@ function koniecGry(){
 	else{
 		ctx.fillText("Wygrywa gracz 2 !!!", 160, 290);
 	}
+	ctx.fillStyle = "#aaaaaa";
+	ctx.font = "italic bold 40px Arial";
+	ctx.fillText("Aby kontynuować, naciśnij SPACJĘ", 70, 550);
 	nowagra = true;
 }
 
 function pauzaNapis(){
-	ctx.fillStyle = "gray";
+	ctx.fillStyle = "#aaaaaa";
 	ctx.font = "italic bold 40px Arial";
 	ctx.fillText("Aby rozpocząć grę, naciśnij SPACJĘ", 50, 400);
 }
 
 function startGry(){
 	renderklatki();
-	console.log(ballX + " " +ballY);
 	pauzaNapis();
 	ctx.fillText("A <---            ---> D ", 229, 45);
 	ctx.fillText("Gracz 1", 330, 85);
 	ctx.fillStyle = "white";
 	ctx.font = "italic bold 100px Arial";
 	ctx.fillText("PING - PONG", 90, 230);
-	ctx.fillStyle = "gray";
+	ctx.fillStyle = "#aaaaaa";
 	ctx.font = "italic bold 40px Arial";
 	ctx.fillText("J <---            ---> L", 235, ch - 25);
 	ctx.fillText("Gracz 2", 330, ch - 55);

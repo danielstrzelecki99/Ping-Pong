@@ -1,6 +1,6 @@
 body
 {
-	background-color: gray;
+	background-color: orange;
 }
 
 h1
@@ -13,4 +13,9 @@ h1
 	display: flex;
 	align-items: center;
 	justify-content: center;
+}
+
+canvas
+{
+	border: 6px solid white;
 }
