@@ -187,6 +187,7 @@ function nowaRunda(gracz){
 	ballSpeedY = 4*gracz;
 	paddleX = cw/2 - paddlewidth/2;
 	paddle2X = cw/2 - paddlewidth/2;
+	renderklatki();
 	if(pkt < 10 && pkt2 < 10){	
 		pauzaNapis();
 		pauza();
@@ -225,8 +226,8 @@ function pauzaNapis(){
 }
 
 function startGry(){
-	console.log("startgry");
 	renderklatki();
+	console.log(ballX + " " +ballY);
 	pauzaNapis();
 	ctx.fillText("A <---            ---> D ", 229, 45);
 	ctx.fillText("Gracz 1", 330, 85);
@@ -242,6 +243,8 @@ function startGry(){
 function nowaGra(){
 	pkt = 0;
 	pkt2 = 0;
+	ballX = cw/2 - ballSize/2;
+	ballY = ch/2 - ballSize/2;
 	nowagra = false;
 	startGry();
 }
