@@ -25,7 +25,7 @@ let pauzaa = true;
 let gamerender;
 let nowagra = false;
 
-//wyrenderowanie pierwszej klatki
+//wyrenderowanie pierwszej klatki i pokazanie instrukcji
 startGry();
 //cztery kolejne funkcje odpowiadają za wyświetlanie wszystkich elementów na ekranie
 function rysujmape(){
