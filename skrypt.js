@@ -13,8 +13,8 @@ let ballSpeedX = 3;
 let ballSpeedY = 4;
 let paddleX = cw/2 - paddlewidth/2;
 let paddle2X = cw/2 - paddlewidth/2;
-let pkt = 9;
-let pkt2 = 9;
+let pkt = 0;
+let pkt2 = 0;
 
 let a = false;
 let d = false;
@@ -33,8 +33,6 @@ let punkt_snd = new Audio("audio/punkt.mp3");
 
 //wyrenderowanie pierwszej klatki i pokazanie instrukcji
 nowagraNapis();
-if(trybgry == 2) startGry();
-else if(trybgry == 1) staryGryBot();
 //cztery kolejne funkcje odpowiadają za wyświetlanie wszystkich elementów na ekranie
 function rysujmape(){
 	ctx.fillStyle = "green";
@@ -263,7 +261,7 @@ function pauza(){
 	else{
 		clearInterval(gamerender);
 		pauzaa = true;
-		pauzaNapis();
+		if(trybgry != 0)pauzaNapis();
 	}
 }
 
@@ -350,9 +348,7 @@ function nowaGra(){
 	pkt2 = 0;
 	ballX = cw/2 - ballSize/2;
 	ballY = ch/2 - ballSize/2;
-	nowagra = false;
 	trybgry = 0;
+	nowagra = false;
 	nowagraNapis();
 }
-
-
