@@ -13,8 +13,8 @@ let ballSpeedX = 3;
 let ballSpeedY = 4;
 let paddleX = cw/2 - paddlewidth/2;
 let paddle2X = cw/2 - paddlewidth/2;
-let pkt = 0;
-let pkt2 = 0;
+let pkt = 9;
+let pkt2 = 9;
 
 let a = false;
 let d = false;
@@ -24,6 +24,7 @@ let kierunek = 1;
 let pauzaa = true;
 let gamerender;
 let nowagra = false;
+let trybgry = 0;
 
 let ping = new Audio("audio/ping.mp3");
 let pong = new Audio("audio/pong.mp3");
@@ -31,7 +32,9 @@ let koniec_snd = new Audio("audio/koniec.mp3");
 let punkt_snd = new Audio("audio/punkt.mp3");
 
 //wyrenderowanie pierwszej klatki i pokazanie instrukcji
-startGry();
+nowagraNapis();
+if(trybgry == 2) startGry();
+else if(trybgry == 1) staryGryBot();
 //cztery kolejne funkcje odpowiadają za wyświetlanie wszystkich elementów na ekranie
 function rysujmape(){
 	ctx.fillStyle = "green";
@@ -129,10 +132,10 @@ function ruszajpaletke(){
 	if (d == true) {
         paddleX+=10;
     }
-	if(j == true){
+	if(j == true && trybgry == 2){
 		paddle2X-=10;
 	}
-	if(l == true){
+	if(l == true && trybgry == 2){
 		paddle2X+=10;
 	}
 }
@@ -173,6 +176,23 @@ function obslugaklawiszystop(e){
 	}
 }
 
+function klik(e){
+	const mouseX = e.clientX - can.offsetLeft;
+	const mouseY = e.clientY - can.offsetTop;
+	if(mouseX >= 56 && mouseX <= 356 && mouseY >= 506 && mouseY <= 606){
+		console.log("1 gracz");
+		trybgry = 1;
+		document.removeEventListener("click", klik);
+		startGryBot();
+	}else if(mouseX >= cw/2 + 55 && mouseX <= cw/2 + 355 && mouseY >= 506 && mouseY <= 606){
+		console.log("2 gracz");
+		trybgry = 2;
+		document.removeEventListener("click", klik);
+		startGry()
+	}
+
+}
+
 function gra(){
 	rysujmape();
 	rysujpilke();
@@ -180,7 +200,7 @@ function gra(){
 	rysujpaletke();
 	rysujpaletke2();
 	ruszajpaletke();
-	aiPosition();
+	if(trybgry == 1) aiPosition();
 }
 
 function aiPosition(){
@@ -250,23 +270,46 @@ function pauza(){
 function koniecGry(){
 	clearInterval(gamerender);
 	ctx.fillText("KONIEC GRY", 240, 210);
-	if(pkt == 10){
-		ctx.fillText("Wygrywa gracz 1 !!!", 160, 290);
+	if(pkt == 10 && trybgry == 1){
+		ctx.fillText("Gratulacje, udało Ci się wygrać!!!", 160, 290);
+		koniec_snd.play();
 	}
-	else{
+	else if (pkt2 == 10 && trybgry == 1){
+		ctx.font = "italic bold 40px Arial";
+		ctx.fillText("Niestety przegrales, spróbuj jeszcze raz", 30, 290);
+	}else if (pkt == 10 && trybgry == 2){
+		ctx.fillText("Wygrywa gracz 1 !!!", 160, 290);
+		koniec_snd.play();
+	}else if (pkt2 == 10 && trybgry == 2){
 		ctx.fillText("Wygrywa gracz 2 !!!", 160, 290);
+		koniec_snd.play();
 	}
 	ctx.fillStyle = "#aaaaaa";
 	ctx.font = "italic bold 40px Arial";
 	ctx.fillText("Aby kontynuować, naciśnij SPACJĘ", 70, 550);
 	nowagra = true;
-	koniec_snd.play();
 }
 
 function pauzaNapis(){
 	ctx.fillStyle = "#aaaaaa";
 	ctx.font = "italic bold 40px Arial";
 	ctx.fillText("Aby rozpocząć grę, naciśnij SPACJĘ", 50, 400);
+}
+
+function nowagraNapis(){
+	document.addEventListener("click", klik);
+	renderklatki();
+	ctx.fillStyle = "white";
+	ctx.font = "italic bold 100px Arial";
+	ctx.fillText("PING - PONG", 90, 230);
+	ctx.fillStyle = "#aaaaaa";
+	ctx.font = "italic bold 40px Arial";
+	ctx.fillText("Wybierz tryb gry:", 250, 400);
+	ctx.strokeStyle = "#aaaaaa";
+	ctx.strokeRect(50, 500, 300, 100);
+	ctx.strokeRect(cw/2 + 50, 500, 300, 100);
+	ctx.fillText("1 osoba", 115, 565);
+	ctx.fillText("2 osoby", cw/2 + 115, 565);
 }
 
 function startGry(){
@@ -283,14 +326,29 @@ function startGry(){
 	ctx.fillText("Gracz 2", 330, ch - 55);
 }
 
+function startGryBot(){
+	renderklatki();
+	pauzaNapis();
+	ctx.fillText("A <---            ---> D ", 229, 45);
+	ctx.fillText("Gracz ", 340, 85);
+	ctx.fillStyle = "white";
+	ctx.font = "italic bold 100px Arial";
+	ctx.fillText("PING - PONG", 90, 230);
+	ctx.fillStyle = "#aaaaaa";
+	ctx.font = "italic bold 40px Arial";
+	ctx.fillText("Komputer", 320, ch - 55);
+}
+
 function nowaGra(){
 	pkt = 0;
 	pkt2 = 0;
 	ballX = cw/2 - ballSize/2;
 	ballY = ch/2 - ballSize/2;
 	nowagra = false;
-	startGry();
+	trybgry = 0;
+	nowagraNapis();
 }
 //obsługa klawiszy
 document.addEventListener("keydown", obslugaklawiszy);
 document.addEventListener("keyup", obslugaklawiszystop);
+
