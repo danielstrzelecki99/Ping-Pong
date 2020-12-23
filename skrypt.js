@@ -297,6 +297,8 @@ function pauzaNapis(){
 }
 
 function nowagraNapis(){
+	document.removeEventListener("keydown", obslugaklawiszy);
+	document.removeEventListener("keyup", obslugaklawiszystop);
 	document.addEventListener("click", klik);
 	renderklatki();
 	ctx.fillStyle = "white";
@@ -313,6 +315,8 @@ function nowagraNapis(){
 }
 
 function startGry(){
+	document.addEventListener("keydown", obslugaklawiszy);
+	document.addEventListener("keyup", obslugaklawiszystop);
 	renderklatki();
 	pauzaNapis();
 	ctx.fillText("A <---            ---> D ", 229, 45);
@@ -327,6 +331,8 @@ function startGry(){
 }
 
 function startGryBot(){
+	document.addEventListener("keydown", obslugaklawiszy);
+	document.addEventListener("keyup", obslugaklawiszystop);
 	renderklatki();
 	pauzaNapis();
 	ctx.fillText("A <---            ---> D ", 229, 45);
@@ -348,7 +354,5 @@ function nowaGra(){
 	trybgry = 0;
 	nowagraNapis();
 }
-//obsługa klawiszy
-document.addEventListener("keydown", obslugaklawiszy);
-document.addEventListener("keyup", obslugaklawiszystop);
+
 
