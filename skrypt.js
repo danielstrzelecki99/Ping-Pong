@@ -37,7 +37,7 @@ function rysujmape(){
 	ctx.fillStyle = "green";
 	ctx.fillRect(0,0,cw,ch);
 	ctx.fillStyle = "white";
-	ctx.fillRect(cw/2 - 3, 0 , 6, ch);
+	ctx.fillRect(cw/2 - 1, 0 , 2, ch);
 	for(let i = 0; i < cw; i+=30){
 		ctx.fillRect(i,ch/2-3,20,6);
 	}
@@ -67,6 +67,7 @@ function rysujpilke(){
 		punkt_snd.play();
 		//przekazanie do funkcji informacji który gracz przegrał aby mógł zaczynać
 		nowaRunda(-1);
+		//ballSpeedY = -ballSpeedY;
 	}
 	//zdobycie punktu przez pierwszego gracza
 	if(ballY > ch){
@@ -74,6 +75,7 @@ function rysujpilke(){
 		punkt_snd.play();
 		//przekazanie do funkcji informacji który gracz przegrał aby mógł zaczynać
 		nowaRunda(1);
+		//ballSpeedY = -ballSpeedY;
 	}
 	//odbicie od paletki pierwszego gracza
 	if(ballX >= paddleX - ballSize && ballX <= paddleX+paddlewidth && ballY <= 30+paddleheight && ballY >= 30){
@@ -178,6 +180,34 @@ function gra(){
 	rysujpaletke();
 	rysujpaletke2();
 	ruszajpaletke();
+	aiPosition();
+}
+
+function aiPosition(){
+	const middlepaddle = paddle2X + paddlewidth/2;
+	if(ballY >= 450){
+		if(ballX - middlepaddle <= -200){
+			paddle2X -= 25;
+		}else if(ballX - middlepaddle < -50){
+			paddle2X -= 10;
+		}else if(ballX - middlepaddle < -20){
+			paddle2X -= 5;
+		}else if(ballX - middlepaddle >= 200){
+			paddle2X += 25;
+		}else if(ballX - middlepaddle > 50){
+			paddle2X += 10;
+		}else if(ballX - middlepaddle > 20){
+			paddle2X += 5;
+		}
+		
+	}
+	else{
+		if(ballX - middlepaddle >= 100){
+			paddle2X += 5;
+		}else if(ballX - middlepaddle <= -100){
+			paddle2X -= 5;
+		}
+	}
 }
 //przyspieszanie piłki po każdym odbiciu od paletki
 function speedup(){
