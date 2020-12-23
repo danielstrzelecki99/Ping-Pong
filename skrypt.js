@@ -13,7 +13,7 @@ let ballSpeedX = 3;
 let ballSpeedY = 4;
 let paddleX = cw/2 - paddlewidth/2;
 let paddle2X = cw/2 - paddlewidth/2;
-let pkt = 9;
+let pkt = 0;
 let pkt2 = 0;
 
 let a = false;
@@ -24,6 +24,11 @@ let kierunek = 1;
 let pauzaa = true;
 let gamerender;
 let nowagra = false;
+
+let ping = new Audio("audio/ping.mp3");
+let pong = new Audio("audio/pong.mp3");
+let koniec_snd = new Audio("audio/koniec.mp3");
+let punkt_snd = new Audio("audio/punkt.mp3");
 
 //wyrenderowanie pierwszej klatki i pokazanie instrukcji
 startGry();
@@ -59,12 +64,14 @@ function rysujpilke(){
 	//zdobycie punktu przez drugiego gracza
 	if(ballY < 0 - ballSize){
 		pkt2++;
+		punkt_snd.play();
 		//przekazanie do funkcji informacji który gracz przegrał aby mógł zaczynać
 		nowaRunda(-1);
 	}
 	//zdobycie punktu przez pierwszego gracza
 	if(ballY > ch){
 		pkt++;
+		punkt_snd.play();
 		//przekazanie do funkcji informacji który gracz przegrał aby mógł zaczynać
 		nowaRunda(1);
 	}
@@ -72,11 +79,13 @@ function rysujpilke(){
 	if(ballX >= paddleX - ballSize && ballX <= paddleX+paddlewidth && ballY <= 30+paddleheight && ballY >= 30){
 		ballSpeedY = -ballSpeedY;
 		speedup();
+		ping.play();
 	}
 	//odbicie od paletki drugiego gracza
 	if(ballX >= paddle2X - ballSize && ballX <= paddle2X+paddlewidth && ballY + ballSize >= ch-30-paddleheight && ballY + ballSize <= ch-30){
 		ballSpeedY = -ballSpeedY;
 		speedup();
+		pong.play();
 	}
 }
 
@@ -221,6 +230,7 @@ function koniecGry(){
 	ctx.font = "italic bold 40px Arial";
 	ctx.fillText("Aby kontynuować, naciśnij SPACJĘ", 70, 550);
 	nowagra = true;
+	koniec_snd.play();
 }
 
 function pauzaNapis(){
